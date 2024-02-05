@@ -51,8 +51,6 @@ namespace FootballAPI.Controllers {
             if (!ModelState.IsValid) {
                 return BadRequest("Cannot create footballer.");
             }
-            var country = _countryRepository.GetCountryById(footballer.CountryId);
-            var club = _clubRepository.GetClubById(footballer.ClubId);
             var footballerToCreate = _mapper.Map<Footballer>(footballer);
             if (!await _footballerRepository.CreateFootballer(footballerToCreate)) {
                 return BadRequest("Something went wrong");
@@ -61,6 +59,45 @@ namespace FootballAPI.Controllers {
                 var footballerToReturn = _mapper.Map<FootballerDTO>(footballerToCreate);
                 return CreatedAtAction("GetFootballerById", new { id = footballerToCreate.Id }, footballerToReturn);
             }
+        }
+
+        [HttpPut("{footballerId:int}")]
+        public async Task<IActionResult> UpdateFootballer([FromRoute] int footballerId, [FromBody] UpdateFootballerDTO updateFootballerDTO) {
+            if (!ModelState.IsValid) {
+                return BadRequest(ModelState);
+            }
+            if (!await _footballerRepository.FootballerExists(footballerId)) {
+                return NotFound();
+            }
+            var footballerToUpdate = _mapper.Map<Footballer>(updateFootballerDTO);
+            footballerToUpdate.Id = footballerId;
+            if (footballerToUpdate == null) {
+                return BadRequest(ModelState);
+            }
+            if (!await _footballerRepository.UpdateFootballer(footballerToUpdate)) {
+                return BadRequest(ModelState);
+            }
+            return NoContent();
+        }
+
+        [HttpDelete("{footballerId:int}")]
+        public async Task<IActionResult> DeleteFootballer([FromRoute] int footballerId) {
+            if (!ModelState.IsValid) {
+                return BadRequest(ModelState);
+            }
+            if (footballerId < 0) {
+                return BadRequest(ModelState);
+            }
+
+            if (!await _footballerRepository.FootballerExists(footballerId)) {
+                return BadRequest("Footballer does not exists");
+            }
+
+            var footballer = await _footballerRepository.GetFootballerByIdAsNoTracking(footballerId);
+            if (!await _footballerRepository.DeleteFootballer(footballer)) {
+                return BadRequest();
+            }
+            return NoContent();
         }
     }
 }

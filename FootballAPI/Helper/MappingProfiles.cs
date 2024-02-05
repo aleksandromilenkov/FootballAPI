@@ -9,6 +9,7 @@ namespace FootballAPI.Helper {
         public MappingProfiles() {
             CreateMap<Footballer, CreateFootballerDTO>().ReverseMap();
             CreateMap<Footballer, FootballerDTO>().ReverseMap();
+            CreateMap<Footballer, UpdateFootballerDTO>().ReverseMap();
             CreateMap<Club, ClubDTO>().ReverseMap();
             CreateMap<Club, CreateClubDTO>().ReverseMap();
             CreateMap<Club, UpdateClubDTO>().ReverseMap();
