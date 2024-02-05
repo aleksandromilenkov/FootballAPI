@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace FootballAPI.Migrations
 {
     /// <inheritdoc />
-    public partial class Init : Migration
+    public partial class Initi : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -226,9 +226,24 @@ namespace FootballAPI.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { "12c68917-361b-4c3c-b250-32c68b245ca8", null, "User", "USER" },
-                    { "57d31a72-07ae-4bd9-aa94-1cc44ddfbf12", null, "Admin", "ADMIN" }
+                    { "9763d135-5b7a-48e1-a208-cc3b6c67bf98", null, "User", "USER" },
+                    { "fd81605b-a674-4d05-b623-04c0907d192e", null, "Admin", "ADMIN" }
                 });
+
+            migrationBuilder.InsertData(
+                table: "Countrys",
+                columns: new[] { "Id", "Continent", "Name", "WcWon" },
+                values: new object[] { 1, 0, "England", 1 });
+
+            migrationBuilder.InsertData(
+                table: "Clubs",
+                columns: new[] { "Id", "CountryId", "League", "Name" },
+                values: new object[] { 1, 1, 0, "Chelsea" });
+
+            migrationBuilder.InsertData(
+                table: "Footballers",
+                columns: new[] { "Id", "Age", "ClubId", "CountryId", "FirstName", "LastName", "Position" },
+                values: new object[] { 1, 20, 1, 1, "Cole", "Palmer", 2 });
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",

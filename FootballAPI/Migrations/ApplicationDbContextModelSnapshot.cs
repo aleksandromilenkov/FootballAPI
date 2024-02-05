@@ -110,6 +110,15 @@ namespace FootballAPI.Migrations
                     b.HasIndex("CountryId");
 
                     b.ToTable("Clubs");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            CountryId = 1,
+                            League = 0,
+                            Name = "Chelsea"
+                        });
                 });
 
             modelBuilder.Entity("FootballAPI.Models.Country", b =>
@@ -133,6 +142,15 @@ namespace FootballAPI.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Countrys");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Continent = 0,
+                            Name = "England",
+                            WcWon = 1
+                        });
                 });
 
             modelBuilder.Entity("FootballAPI.Models.Footballer", b =>
@@ -170,6 +188,18 @@ namespace FootballAPI.Migrations
                     b.HasIndex("CountryId");
 
                     b.ToTable("Footballers");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Age = 20,
+                            ClubId = 1,
+                            CountryId = 1,
+                            FirstName = "Cole",
+                            LastName = "Palmer",
+                            Position = 2
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -201,13 +231,13 @@ namespace FootballAPI.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "57d31a72-07ae-4bd9-aa94-1cc44ddfbf12",
+                            Id = "fd81605b-a674-4d05-b623-04c0907d192e",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "12c68917-361b-4c3c-b250-32c68b245ca8",
+                            Id = "9763d135-5b7a-48e1-a208-cc3b6c67bf98",
                             Name = "User",
                             NormalizedName = "USER"
                         });

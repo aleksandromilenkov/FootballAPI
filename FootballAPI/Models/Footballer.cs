@@ -10,7 +10,7 @@ namespace FootballAPI.Models {
         public Country? Country { get; set; }
         public int? ClubId { get; set; }
         public Club? Club { get; set; }
-        public Position Position { get; set; } = Position.Goalkeeper;
+        public Position Position { get; set; }
 
     }
 }
