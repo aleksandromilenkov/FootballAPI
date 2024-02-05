@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
-using FootballAPI.DTO;
+using FootballAPI.DTO.ClubsDTOs;
+using FootballAPI.DTO.FootballersDTOs;
 using FootballAPI.Interface;
 using FootballAPI.Models;
 using Microsoft.AspNetCore.Mvc;
@@ -18,7 +19,7 @@ namespace FootballAPI.Controllers {
 
         [HttpGet]
         public async Task<IActionResult> GetClubs() {
-            var clubs = await _clubRepository.GetClubs();
+            var clubs = _mapper.Map<List<ClubDTO>>(await _clubRepository.GetClubs());
             if (clubs == null) {
                 return BadRequest(ModelState);
             }
@@ -56,6 +57,45 @@ namespace FootballAPI.Controllers {
                 return CreatedAtAction("GetClubById", new { id = club.Id }, clubToReturn);
             }
 
+        }
+
+        [HttpPut("{clubId:int}")]
+        public async Task<IActionResult> UpdateClub([FromRoute] int clubId, [FromBody] UpdateClubDTO updateClubDTO) {
+            if (!ModelState.IsValid) {
+                return BadRequest(ModelState);
+            }
+            if (!await _clubRepository.ClubExists(clubId)) {
+                return NotFound();
+            }
+            var clubToUpdate = _mapper.Map<Club>(updateClubDTO);
+            clubToUpdate.Id = clubId;
+            if (clubToUpdate == null) {
+                return BadRequest(ModelState);
+            }
+            if (!await _clubRepository.UpdateClub(clubToUpdate)) {
+                return BadRequest(ModelState);
+            }
+            return NoContent();
+        }
+
+        [HttpDelete("{clubId:int}")]
+        public async Task<IActionResult> DeleteClub([FromRoute] int clubId) {
+            if (!ModelState.IsValid) {
+                return BadRequest(ModelState);
+            }
+            if (clubId < 0) {
+                return BadRequest(ModelState);
+            }
+
+            if (!await _clubRepository.ClubExists(clubId)) {
+                return BadRequest("Club does not exists");
+            }
+
+            var club = await _clubRepository.GetClubByIdAsNoTracking(clubId);
+            if (!await _clubRepository.DeleteClub(club)) {
+                return BadRequest();
+            }
+            return NoContent();
         }
     }
 }

@@ -1,7 +1,9 @@
 ﻿using FootballAPI.Enums;
+using System.ComponentModel.DataAnnotations;
 
 namespace FootballAPI.Models {
     public class Footballer {
+        [Key]
         public int Id { get; set; }
         public string FirstName { get; set; } = String.Empty;
         public string LastName { get; set; } = String.Empty;

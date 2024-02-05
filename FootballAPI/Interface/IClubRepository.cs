@@ -4,6 +4,7 @@ namespace FootballAPI.Interface {
     public interface IClubRepository {
         Task<ICollection<Club>> GetClubs();
         Task<Club> GetClubById(int id);
+        Task<Club> GetClubByIdAsNoTracking(int id);
         Task<ICollection<Club>> GetClubsByCountryId(int countryId);
         Task<bool> ClubExists(int id);
         Task<bool> CreateClub(Club club);

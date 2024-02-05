@@ -28,8 +28,12 @@ namespace FootballAPI.Repositories {
             return await _context.Clubs.Where(c => c.Id == id).Include(c => c.Footballers).Include(c => c.Country).FirstOrDefaultAsync();
         }
 
+        public async Task<Club> GetClubByIdAsNoTracking(int id) {
+            return await _context.Clubs.Where(c => c.Id == id).Include(c => c.Footballers).Include(c => c.Country).AsNoTracking().FirstOrDefaultAsync();
+        }
+
         public async Task<ICollection<Club>> GetClubs() {
-            return await _context.Clubs.ToListAsync();
+            return await _context.Clubs.Include(c => c.Footballers).Include(c => c.Country).ToListAsync();
         }
 
         public async Task<ICollection<Club>> GetClubsByCountryId(int countryId) {

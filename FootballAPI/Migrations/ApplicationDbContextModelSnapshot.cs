@@ -141,7 +141,7 @@ namespace FootballAPI.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Countrys");
+                    b.ToTable("Countries");
 
                     b.HasData(
                         new
@@ -231,13 +231,13 @@ namespace FootballAPI.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "fd81605b-a674-4d05-b623-04c0907d192e",
+                            Id = "6506fd98-36c9-41d7-869e-37b708cd597b",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "9763d135-5b7a-48e1-a208-cc3b6c67bf98",
+                            Id = "39ee1e76-0278-4821-aa18-92229a3eedd5",
                             Name = "User",
                             NormalizedName = "USER"
                         });

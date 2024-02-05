@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using FootballAPI.DTO;
+using FootballAPI.DTO.FootballersDTOs;
 using FootballAPI.Interface;
 using FootballAPI.Models;
 using Microsoft.AspNetCore.Mvc;

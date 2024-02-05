@@ -1,7 +1,7 @@
 ﻿using FootballAPI.Enums;
 using FootballAPI.Models;
 
-namespace FootballAPI.DTO {
+namespace FootballAPI.DTO.CountrysDTOs {
     public class CountryDTO {
         public string Name { get; set; }
         public Continent Continent { get; set; }

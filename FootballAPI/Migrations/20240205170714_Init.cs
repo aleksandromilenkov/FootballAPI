@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace FootballAPI.Migrations
 {
     /// <inheritdoc />
-    public partial class Initi : Migration
+    public partial class Init : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -53,7 +53,7 @@ namespace FootballAPI.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Countrys",
+                name: "Countries",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -64,7 +64,7 @@ namespace FootballAPI.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Countrys", x => x.Id);
+                    table.PrimaryKey("PK_Countries", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -187,9 +187,9 @@ namespace FootballAPI.Migrations
                 {
                     table.PrimaryKey("PK_Clubs", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Clubs_Countrys_CountryId",
+                        name: "FK_Clubs_Countries_CountryId",
                         column: x => x.CountryId,
-                        principalTable: "Countrys",
+                        principalTable: "Countries",
                         principalColumn: "Id");
                 });
 
@@ -215,9 +215,9 @@ namespace FootballAPI.Migrations
                         principalTable: "Clubs",
                         principalColumn: "Id");
                     table.ForeignKey(
-                        name: "FK_Footballers_Countrys_CountryId",
+                        name: "FK_Footballers_Countries_CountryId",
                         column: x => x.CountryId,
-                        principalTable: "Countrys",
+                        principalTable: "Countries",
                         principalColumn: "Id");
                 });
 
@@ -226,12 +226,12 @@ namespace FootballAPI.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { "9763d135-5b7a-48e1-a208-cc3b6c67bf98", null, "User", "USER" },
-                    { "fd81605b-a674-4d05-b623-04c0907d192e", null, "Admin", "ADMIN" }
+                    { "39ee1e76-0278-4821-aa18-92229a3eedd5", null, "User", "USER" },
+                    { "6506fd98-36c9-41d7-869e-37b708cd597b", null, "Admin", "ADMIN" }
                 });
 
             migrationBuilder.InsertData(
-                table: "Countrys",
+                table: "Countries",
                 columns: new[] { "Id", "Continent", "Name", "WcWon" },
                 values: new object[] { 1, 0, "England", 1 });
 
@@ -331,7 +331,7 @@ namespace FootballAPI.Migrations
                 name: "Clubs");
 
             migrationBuilder.DropTable(
-                name: "Countrys");
+                name: "Countries");
         }
     }
 }
