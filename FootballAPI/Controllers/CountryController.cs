@@ -59,5 +59,44 @@ namespace FootballAPI.Controllers {
             }
 
         }
+
+        [HttpPut("{countryId:int}")]
+        public async Task<IActionResult> UpdateCountry([FromRoute] int countryId, [FromBody] UpdateCountryDTO updateCountryDTO) {
+            if (!ModelState.IsValid) {
+                return BadRequest(ModelState);
+            }
+            if (!await _countryRepository.CountryExists(countryId)) {
+                return NotFound();
+            }
+            var countryToUpdate = _mapper.Map<Country>(updateCountryDTO);
+            countryToUpdate.Id = countryId;
+            if (countryToUpdate == null) {
+                return BadRequest(ModelState);
+            }
+            if (!await _countryRepository.UpdateCountry(countryToUpdate)) {
+                return BadRequest(ModelState);
+            }
+            return NoContent();
+        }
+
+        [HttpDelete("{countryId:int}")]
+        public async Task<IActionResult> DeleteCountry([FromRoute] int countryId) {
+            if (!ModelState.IsValid) {
+                return BadRequest(ModelState);
+            }
+            if (countryId < 0) {
+                return BadRequest(ModelState);
+            }
+
+            if (!await _countryRepository.CountryExists(countryId)) {
+                return BadRequest("Country does not exists");
+            }
+
+            var country = await _countryRepository.GetCountryByIdAsNoTracking(countryId);
+            if (!await _countryRepository.DeleteCountry(country)) {
+                return BadRequest();
+            }
+            return NoContent();
+        }
     }
 }

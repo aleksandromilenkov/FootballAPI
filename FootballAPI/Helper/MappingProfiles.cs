@@ -14,6 +14,7 @@ namespace FootballAPI.Helper {
             CreateMap<Club, UpdateClubDTO>().ReverseMap();
             CreateMap<Country, CreateCountryDTO>().ReverseMap();
             CreateMap<Country, CountryDTO>().ReverseMap();
+            CreateMap<Country, UpdateCountryDTO>().ReverseMap();
         }
 
     }
