@@ -3,10 +3,10 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
-namespace FootballAPI.DbContext {
+namespace FootballAPI.ApplicationDBContext {
     public class ApplicationDbContext : IdentityDbContext<AppUser> {
-        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
-      : base(options) {
+        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options) {
+
         }
 
         public DbSet<Footballer> Footballers { get; set; }
@@ -14,6 +14,7 @@ namespace FootballAPI.DbContext {
         public DbSet<Country> Countrys { get; set; }
         protected override void OnModelCreating(ModelBuilder builder) {
             base.OnModelCreating(builder);
+
             List<IdentityRole> roles = new List<IdentityRole>{
                 new IdentityRole{
                     Name="Admin",
@@ -26,5 +27,6 @@ namespace FootballAPI.DbContext {
             };
             builder.Entity<IdentityRole>().HasData(roles);
         }
+
     }
 }

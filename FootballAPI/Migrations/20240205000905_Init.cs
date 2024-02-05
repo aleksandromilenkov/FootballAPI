@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace FootballAPI.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialCreate : Migration
+    public partial class Init : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -226,8 +226,8 @@ namespace FootballAPI.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { "bd79652d-9878-4b84-89d0-7cd03ea87c67", null, "Admin", "ADMIN" },
-                    { "fbe91060-b687-4a5c-b6c0-50709a1f76f0", null, "User", "USER" }
+                    { "12c68917-361b-4c3c-b250-32c68b245ca8", null, "User", "USER" },
+                    { "57d31a72-07ae-4bd9-aa94-1cc44ddfbf12", null, "Admin", "ADMIN" }
                 });
 
             migrationBuilder.CreateIndex(
