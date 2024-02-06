@@ -19,6 +19,9 @@ namespace FootballAPI.Controllers {
 
         [HttpGet]
         public async Task<IActionResult> GetClubs() {
+            if (!ModelState.IsValid) {
+                return BadRequest(ModelState);
+            }
             var clubs = _mapper.Map<List<ClubDTO>>(await _clubRepository.GetClubs());
             if (clubs == null) {
                 return BadRequest(ModelState);

@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using FootballAPI.DTO.FootballersDTOs;
+using FootballAPI.Helper;
 using FootballAPI.Interface;
 using FootballAPI.Models;
 using Microsoft.AspNetCore.Mvc;
@@ -21,8 +22,8 @@ namespace FootballAPI.Controllers {
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetFootballers() {
-            var footballers = _mapper.Map<List<FootballerDTO>>(await _footballerRepository.GetFootballers());
+        public async Task<IActionResult> GetFootballers([FromQuery] FootballerQueryObject footballerQueryObject) {
+            var footballers = _mapper.Map<List<FootballerDTO>>(await _footballerRepository.GetFootballers(footballerQueryObject));
             if (footballers == null) {
                 return BadRequest("Something went wrong");
             }

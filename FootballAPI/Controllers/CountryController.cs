@@ -21,6 +21,9 @@ namespace FootballAPI.Controllers {
 
         [HttpGet]
         public async Task<IActionResult> GetCountries() {
+            if (!ModelState.IsValid) {
+                return BadRequest(ModelState);
+            }
             var countries = await _countryRepository.GetCountries();
             if (countries == null) {
                 return BadRequest(ModelState);

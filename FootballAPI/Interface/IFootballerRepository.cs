@@ -1,8 +1,9 @@
-﻿using FootballAPI.Models;
+﻿using FootballAPI.Helper;
+using FootballAPI.Models;
 
 namespace FootballAPI.Interface {
     public interface IFootballerRepository {
-        Task<ICollection<Footballer>> GetFootballers();
+        Task<ICollection<Footballer>> GetFootballers(FootballerQueryObject footballerQueryObject);
         Task<Footballer> GetFootballerById(int id);
         Task<Footballer> GetFootballerByIdAsNoTracking(int id);
         Task<ICollection<Footballer>> GetFootballersByCountry(int countryId);
