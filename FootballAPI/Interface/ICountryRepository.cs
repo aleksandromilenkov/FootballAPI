@@ -1,8 +1,9 @@
-﻿using FootballAPI.Models;
+﻿using FootballAPI.Helper;
+using FootballAPI.Models;
 
 namespace FootballAPI.Interface {
     public interface ICountryRepository {
-        Task<ICollection<Country>> GetCountries();
+        Task<ICollection<Country>> GetCountries(CountryQueryObject countryQueryObject);
         Task<Country> GetCountryById(int id);
         Task<Country> GetCountryByIdAsNoTracking(int id);
         Task<bool> CountryExists(int id);

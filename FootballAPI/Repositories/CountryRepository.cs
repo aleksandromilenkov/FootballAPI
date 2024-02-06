@@ -1,4 +1,5 @@
 ﻿using FootballAPI.ApplicationDBContext;
+using FootballAPI.Helper;
 using FootballAPI.Interface;
 using FootballAPI.Models;
 using Microsoft.EntityFrameworkCore;
@@ -24,8 +25,29 @@ namespace FootballAPI.Repositories {
             return await Save();
         }
 
-        public async Task<ICollection<Country>> GetCountries() {
-            return await _context.Countries.Include(c => c.Footballers).Include(c => c.Clubs).ToListAsync();
+        public async Task<ICollection<Country>> GetCountries(CountryQueryObject countryQueryObject) {
+            var countries = _context.Countries.Include(c => c.Footballers).Include(c => c.Clubs).AsQueryable();
+            if (!string.IsNullOrWhiteSpace(countryQueryObject.Name)) {
+                countries = countries.Where(c => c.Name == countryQueryObject.Name);
+            }
+            if (countryQueryObject.Continent != null) {
+                countries = countries.Where(c => c.Continent == countryQueryObject.Continent);
+            }
+            if (countryQueryObject.WcWon != null) {
+                countries = countries.Where(c => c.WcWon == countryQueryObject.WcWon);
+            }
+            if (!string.IsNullOrWhiteSpace(countryQueryObject.SortBy)) {
+                if (countryQueryObject.SortBy.Equals("Name", StringComparison.OrdinalIgnoreCase)) {
+                    countries = countryQueryObject.IsDescending ? countries.OrderByDescending(c => c.Name) : countries.OrderBy(c => c.Name);
+                }
+                if (countryQueryObject.SortBy.Equals("Continent", StringComparison.OrdinalIgnoreCase)) {
+                    countries = countryQueryObject.IsDescending ? countries.OrderByDescending(c => c.Continent) : countries.OrderBy(c => c.Continent);
+                }
+                if (countryQueryObject.SortBy.Equals("WcWon", StringComparison.OrdinalIgnoreCase)) {
+                    countries = countryQueryObject.IsDescending ? countries.OrderByDescending(c => c.WcWon) : countries.OrderBy(c => c.WcWon);
+                }
+            }
+            return await countries.ToListAsync();
         }
 
 

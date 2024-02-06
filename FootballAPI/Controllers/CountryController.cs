@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using FootballAPI.DTO.CountrysDTOs;
 using FootballAPI.DTO.FootballersDTOs;
+using FootballAPI.Helper;
 using FootballAPI.Interface;
 using FootballAPI.Models;
 using Microsoft.AspNetCore.Mvc;
@@ -20,11 +21,11 @@ namespace FootballAPI.Controllers {
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetCountries() {
+        public async Task<IActionResult> GetCountries([FromQuery] CountryQueryObject countryQueryObject) {
             if (!ModelState.IsValid) {
                 return BadRequest(ModelState);
             }
-            var countries = await _countryRepository.GetCountries();
+            var countries = await _countryRepository.GetCountries(countryQueryObject);
             if (countries == null) {
                 return BadRequest(ModelState);
             }
