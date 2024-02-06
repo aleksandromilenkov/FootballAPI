@@ -34,7 +34,7 @@ namespace FootballAPI.Repositories {
         }
 
         public async Task<ICollection<Club>> GetClubs(ClubQueryObject clubQueryObject) {
-            var clubs = _context.Clubs.Include(c => c.Footballers).Include(c => c.Country).AsQueryable();
+            var clubs = _context.Clubs.Include(c => c.Footballers).Include(c => c.Country).ThenInclude(c => c.Footballers).AsQueryable();
             if (!string.IsNullOrWhiteSpace(clubQueryObject.Name)) {
                 clubs = clubs.Where(c => c.Name == clubQueryObject.Name);
             }
@@ -52,7 +52,8 @@ namespace FootballAPI.Repositories {
                     clubs = clubQueryObject.IsDescending ? clubs.OrderByDescending(c => c.Country.Name) : clubs.OrderBy(c => c.Country.Name);
                 }
             }
-            return await clubs.ToListAsync();
+            var skipNumber = (clubQueryObject.PageNumber - 1) * clubQueryObject.PageSize;
+            return await clubs.Skip(skipNumber).Take(clubQueryObject.PageSize).ToListAsync();
         }
 
         public async Task<ICollection<Club>> GetClubsByCountryId(int countryId) {

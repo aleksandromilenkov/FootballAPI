@@ -44,10 +44,11 @@ namespace FootballAPI.Repositories {
                     countries = countryQueryObject.IsDescending ? countries.OrderByDescending(c => c.Continent) : countries.OrderBy(c => c.Continent);
                 }
                 if (countryQueryObject.SortBy.Equals("WcWon", StringComparison.OrdinalIgnoreCase)) {
-                    countries = countryQueryObject.IsDescending ? countries.OrderByDescending(c => c.WcWon) : countries.OrderBy(c => c.WcWon);
+                    countries = countryQueryObject.IsDescending ? countries.OrderBy(c => c.WcWon) : countries.OrderByDescending(c => c.WcWon);
                 }
             }
-            return await countries.ToListAsync();
+            var skipNumber = (countryQueryObject.PageNumber - 1) * countryQueryObject.PageSize;
+            return await countries.Skip(skipNumber).Take(countryQueryObject.PageSize).ToListAsync();
         }
 
 

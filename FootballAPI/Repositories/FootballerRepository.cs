@@ -61,7 +61,8 @@ namespace FootballAPI.Repositories {
                     footballers = footballerQueryObject.IsDescending ? footballers.OrderByDescending(f => f.LastName) : footballers.OrderBy(f => f.LastName);
                 }
             }
-            return await footballers.ToListAsync();
+            var skipNumber = (footballerQueryObject.PageNumber - 1) * footballerQueryObject.PageSize;
+            return await footballers.Skip(skipNumber).Take(footballerQueryObject.PageSize).ToListAsync();
         }
 
         public async Task<ICollection<Footballer>> GetFootballersByClub(int clubId) {
