@@ -1,4 +1,5 @@
 ﻿using FootballAPI.ApplicationDBContext;
+using FootballAPI.Helper;
 using FootballAPI.Interface;
 using FootballAPI.Models;
 using Microsoft.EntityFrameworkCore;
@@ -32,8 +33,26 @@ namespace FootballAPI.Repositories {
             return await _context.Clubs.Where(c => c.Id == id).Include(c => c.Footballers).Include(c => c.Country).AsNoTracking().FirstOrDefaultAsync();
         }
 
-        public async Task<ICollection<Club>> GetClubs() {
-            return await _context.Clubs.Include(c => c.Footballers).Include(c => c.Country).ToListAsync();
+        public async Task<ICollection<Club>> GetClubs(ClubQueryObject clubQueryObject) {
+            var clubs = _context.Clubs.Include(c => c.Footballers).Include(c => c.Country).AsQueryable();
+            if (!string.IsNullOrWhiteSpace(clubQueryObject.Name)) {
+                clubs = clubs.Where(c => c.Name == clubQueryObject.Name);
+            }
+            if (clubQueryObject.League != null) {
+                clubs = clubs.Where(c => c.League == clubQueryObject.League);
+            }
+            if (!string.IsNullOrWhiteSpace(clubQueryObject.CountryName)) {
+                clubs = clubs.Where(c => c.Country.Name.ToLower() == clubQueryObject.CountryName.Trim().ToLower());
+            }
+            if (!string.IsNullOrWhiteSpace(clubQueryObject.SortBy)) {
+                if (clubQueryObject.SortBy.Equals("Name", StringComparison.OrdinalIgnoreCase)) {
+                    clubs = clubQueryObject.IsDescending ? clubs.OrderByDescending(c => c.Name) : clubs.OrderBy(c => c.Name);
+                }
+                if (clubQueryObject.SortBy.Equals("CountryName", StringComparison.OrdinalIgnoreCase)) {
+                    clubs = clubQueryObject.IsDescending ? clubs.OrderByDescending(c => c.Country.Name) : clubs.OrderBy(c => c.Country.Name);
+                }
+            }
+            return await clubs.ToListAsync();
         }
 
         public async Task<ICollection<Club>> GetClubsByCountryId(int countryId) {

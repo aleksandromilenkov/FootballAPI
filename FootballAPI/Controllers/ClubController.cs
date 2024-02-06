@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using FootballAPI.DTO.ClubsDTOs;
 using FootballAPI.DTO.FootballersDTOs;
+using FootballAPI.Helper;
 using FootballAPI.Interface;
 using FootballAPI.Models;
 using Microsoft.AspNetCore.Mvc;
@@ -18,11 +19,11 @@ namespace FootballAPI.Controllers {
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetClubs() {
+        public async Task<IActionResult> GetClubs([FromQuery] ClubQueryObject clubQueryObject) {
             if (!ModelState.IsValid) {
                 return BadRequest(ModelState);
             }
-            var clubs = _mapper.Map<List<ClubDTO>>(await _clubRepository.GetClubs());
+            var clubs = _mapper.Map<List<ClubDTO>>(await _clubRepository.GetClubs(clubQueryObject));
             if (clubs == null) {
                 return BadRequest(ModelState);
             }

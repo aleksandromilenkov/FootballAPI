@@ -1,8 +1,9 @@
-﻿using FootballAPI.Models;
+﻿using FootballAPI.Helper;
+using FootballAPI.Models;
 
 namespace FootballAPI.Interface {
     public interface IClubRepository {
-        Task<ICollection<Club>> GetClubs();
+        Task<ICollection<Club>> GetClubs(ClubQueryObject clubQueryObject);
         Task<Club> GetClubById(int id);
         Task<Club> GetClubByIdAsNoTracking(int id);
         Task<ICollection<Club>> GetClubsByCountryId(int countryId);
