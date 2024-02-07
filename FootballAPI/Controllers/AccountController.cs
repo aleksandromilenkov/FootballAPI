@@ -3,6 +3,7 @@ using FootballAPI.Interface;
 using FootballAPI.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace FootballAPI.Controllers {
     [Route("api/[controller]")]
@@ -16,6 +17,28 @@ namespace FootballAPI.Controllers {
             _userManager = userManager;
             _signInManager = signInManager;
             _tokenService = tokenService;
+        }
+
+        [HttpPost("login")]
+        public async Task<IActionResult> Login([FromBody] LoginDTO loginDTO) {
+            if (!ModelState.IsValid) {
+                return BadRequest(ModelState);
+            }
+
+            var user = await _userManager.Users.FirstOrDefaultAsync(u => u.UserName == loginDTO.UserName);
+            if (user == null) {
+                return Unauthorized("Invalid username!");
+            }
+            var result = await _signInManager.CheckPasswordSignInAsync(user, loginDTO.Password, false);
+            if (!result.Succeeded) {
+                return Unauthorized("Invalid username or password");
+            }
+            var userToReturn = new UserToReturnDTO {
+                UserName = user.UserName,
+                Email = user.Email,
+                Token = _tokenService.CreateToken(user)
+            };
+            return Ok(userToReturn);
         }
 
         [HttpPost("register")]
