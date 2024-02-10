@@ -35,16 +35,16 @@ namespace FootballAPI.Repositories {
 
         public async Task<ICollection<Club>> GetClubs(ClubQueryObject clubQueryObject) {
             var clubs = _context.Clubs.Include(c => c.Footballers).Include(c => c.Country).ThenInclude(c => c.Footballers).AsQueryable();
-            if (!string.IsNullOrWhiteSpace(clubQueryObject.Name)) {
+            if (!string.IsNullOrWhiteSpace(clubQueryObject.Name) && clubQueryObject.Name != "null") {
                 clubs = clubs.Where(c => c.Name == clubQueryObject.Name);
             }
             if (clubQueryObject.League != null) {
                 clubs = clubs.Where(c => c.League == clubQueryObject.League);
             }
-            if (!string.IsNullOrWhiteSpace(clubQueryObject.CountryName)) {
+            if (!string.IsNullOrWhiteSpace(clubQueryObject.CountryName) && clubQueryObject.CountryName != "null") {
                 clubs = clubs.Where(c => c.Country.Name.ToLower() == clubQueryObject.CountryName.Trim().ToLower());
             }
-            if (!string.IsNullOrWhiteSpace(clubQueryObject.SortBy)) {
+            if (!string.IsNullOrWhiteSpace(clubQueryObject.SortBy) && clubQueryObject.SortBy != "null") {
                 if (clubQueryObject.SortBy.Equals("Name", StringComparison.OrdinalIgnoreCase)) {
                     clubs = clubQueryObject.IsDescending ? clubs.OrderByDescending(c => c.Name) : clubs.OrderBy(c => c.Name);
                 }
