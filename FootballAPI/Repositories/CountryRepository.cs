@@ -27,7 +27,7 @@ namespace FootballAPI.Repositories {
 
         public async Task<ICollection<Country>> GetCountries(CountryQueryObject countryQueryObject) {
             var countries = _context.Countries.Include(c => c.Footballers).Include(c => c.Clubs).AsQueryable();
-            if (!string.IsNullOrWhiteSpace(countryQueryObject.Name)) {
+            if (!string.IsNullOrWhiteSpace(countryQueryObject.Name) && countryQueryObject.Name != "null") {
                 countries = countries.Where(c => c.Name == countryQueryObject.Name);
             }
             if (countryQueryObject.Continent != null) {
@@ -36,7 +36,7 @@ namespace FootballAPI.Repositories {
             if (countryQueryObject.WcWon != null) {
                 countries = countries.Where(c => c.WcWon == countryQueryObject.WcWon);
             }
-            if (!string.IsNullOrWhiteSpace(countryQueryObject.SortBy)) {
+            if (!string.IsNullOrWhiteSpace(countryQueryObject.SortBy) && countryQueryObject.SortBy != "null") {
                 if (countryQueryObject.SortBy.Equals("Name", StringComparison.OrdinalIgnoreCase)) {
                     countries = countryQueryObject.IsDescending ? countries.OrderByDescending(c => c.Name) : countries.OrderBy(c => c.Name);
                 }
