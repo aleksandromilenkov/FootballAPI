@@ -11,6 +11,7 @@ namespace FootballAPI.DTO.FootballersDTOs {
         [Required]
         public int? Age { get; set; }
         public int? ClubId { get; set; }
+        public int? CountryId { get; set; }
         public Position Position { get; set; } = Position.Goalkeeper;
     }
 }
