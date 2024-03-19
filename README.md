@@ -9,3 +9,4 @@ Every Country has multiple Footballers and Every Footballer has just one Country
 Every Country has multiple Clubs and Every Club has One Country (One-To-Many relationship)  
 This API is using Authentication and Authorization with Json Bearer Web Token and Identity package which allows creating tokens and Users to login and signup.  
 This API is using EntityFramework to manipulate with the Microsoft SQL Server Database.  
+This API serves as backend for this frontend: https://github.com/aleksandromilenkov/FootballAPI_Frontend
